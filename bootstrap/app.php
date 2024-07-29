@@ -7,12 +7,18 @@ use Illuminate\Foundation\Configuration\Middleware;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->statefulApi();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
+
+    $app->configure('lighthouse');
+    $app->register(\Nuwave\Lighthouse\LighthouseServiceProvider::class);
+    $app->register(\Nuwave\Lighthouse\Pagination\PaginationServiceProvider::class);
+    $app->register(\Nuwave\Lighthouse\Validation\ValidationServiceProvider::class);
