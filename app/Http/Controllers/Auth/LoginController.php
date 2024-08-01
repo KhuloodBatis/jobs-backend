@@ -14,7 +14,10 @@ class LoginController extends Controller
       throw new AuthenticationException();
     }
 
-    
+    return response()->json([
+      'token' => auth()->guard()->user()->createToken('token')->plainTextToken
+    ]);
+
 
 }
 
